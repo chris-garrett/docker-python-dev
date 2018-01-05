@@ -1,0 +1,7 @@
+#!/bin/sh
+
+virtualenv --always-copy /work/app 
+source /work/app/bin/activate 
+pip freeze > /work/app/requirements.txt
+cp ~/Python.gitignore /work/app/.gitignore
+
