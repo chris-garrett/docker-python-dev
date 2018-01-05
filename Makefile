@@ -1,6 +1,7 @@
 
 IMAGE_VERSION=3.6.4
 IMAGE_NAME=chrisgarrett/python
+RUN_ARGS=--rm -it -v `pwd`/src:/work/app -p 8000:8000 ${IMAGE_NAME}:${IMAGE_VERSION}
 
 all: build
 
@@ -15,16 +16,13 @@ run:
 	docker run --rm -it ${IMAGE_NAME}:${IMAGE_VERSION} python --version
 
 bash:
-	docker run --rm -it -v `pwd`/src:/work/app ${IMAGE_NAME}:${IMAGE_VERSION} bash
+	docker run ${RUN_ARGS} bash
 
 init:
-	docker run --rm -it \
-		-v `pwd`/src:/work/app \
-		${IMAGE_NAME}:${IMAGE_VERSION} \
-		initenv
+	docker run ${RUN_ARGS} initenv
 
-django:
-	docker run --rm -it \
-		-v `pwd`/src:/work/app \
-		${IMAGE_NAME}:${IMAGE_VERSION} \
-		pip install --user --no-cache-dir -r requirements.txt
+install:
+	docker run ${RUN_ARGS} invoke install
+
+up:
+	docker run ${RUN_ARGS} invoke up
