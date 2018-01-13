@@ -26,3 +26,6 @@ install:
 
 up:
 	docker run ${RUN_ARGS} invoke up
+
+scrapy::
+	docker run ${RUN_ARGS} bash -c "pip install Scrapy && pip freeze > requirements.txt &&scrapy startproject tutorial"

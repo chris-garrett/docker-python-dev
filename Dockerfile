@@ -23,15 +23,27 @@ RUN apk --no-cache add -U \
     autoconf \
     nasm \
     libpng-dev \
+    py-pip \
+    musl-dev \
+    musl-utils \
+    musl-dbg \
+    libevent-dev \
+    python3-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libffi-dev \
+    openssl-dev \
   && update-ca-certificates \
+  && cp -r /usr/include/libxml2/libxml/ /usr/include \
   && ln -sf /usr/bin/vim /usr/bin/vi \
   && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+  && pip install --no-cache-dir --upgrade pip \
   && pip install virtualenv invoke \
   && adduser -s /bin/bash -D sprout \
   && wget -P /home/sprout/bootstrap https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore \
-  && mkdir -p /work/app && chown -R sprout:sprout /work /home/sprout 
+  && mkdir -p /work/app && chown -R sprout:sprout /work /home/sprout
 
 USER sprout
 WORKDIR /work/app
