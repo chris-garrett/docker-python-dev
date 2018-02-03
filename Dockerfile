@@ -24,6 +24,8 @@ RUN apk --no-cache add -U \
     autoconf \
     nasm \
     libpng-dev \
+    jpeg-dev \
+    zlib-dev \
     py-pip \
     musl-dev \
     musl-utils \
