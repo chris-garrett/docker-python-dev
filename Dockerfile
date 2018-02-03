@@ -4,11 +4,12 @@ LABEL description="Python 3.6.4 Development Image"
 
 ENV DOCKERIZE_VERSION=v0.6.0
 
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./bash_profile /home/sprout/.profile
-COPY ./vimrc /home/sprout/.vimrc
-COPY ./initenv /usr/local/bin/initenv
-COPY ./tasks.py /home/sprout/bootstrap/tasks.py
+COPY ./scripts/entrypoint.sh /entrypoint.sh
+COPY ./scripts/bash_profile /home/sprout/.bash_profile
+COPY ./scripts/bashrc /home/sprout/.bashrc
+COPY ./scripts/vimrc /home/sprout/.vimrc
+COPY ./scripts/initenv /usr/local/bin/initenv
+COPY ./bootstrap /home/sprout/bootstrap
 
 RUN apk --no-cache add -U \
     ca-certificates \
@@ -33,7 +34,10 @@ RUN apk --no-cache add -U \
     libxslt-dev \
     libffi-dev \
     openssl-dev \
+    nodejs \
   && update-ca-certificates \
+  && npm i -g npx \
+  && npm i -g nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
   && ln -sf /usr/bin/vim /usr/bin/vi \
   && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
