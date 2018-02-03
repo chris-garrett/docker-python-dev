@@ -1,0 +1,20 @@
+#!/bin/sh
+
+virtualenv --always-copy /work/app/.env
+source /work/app/.env/bin/activate
+
+if [ ! -f /work/app/requirements.txt ]; then
+  pip freeze > /work/app/requirements.txt
+fi
+
+if [ ! -f /work/app/.gitignore ]; then
+  cp ~/bootstrap/.gitignore /work/app/.gitignore
+fi
+
+if [ ! -f /work/app/package.json ]; then
+  cp ~/bootstrap/package.json /work/app/package.json
+fi
+
+# if [ ! -f /work/app/tasks.py ]; then
+#   cp ~/bootstrap/tasks.py /work/app/tasks.py
+# fi

@@ -1,6 +1,6 @@
 
 IMAGE_VERSION=3.6.4
-IMAGE_NAME=chrisgarrett/python
+IMAGE_NAME=chrisgarrett/python-dev
 RUN_ARGS=--rm -it -v `pwd`/src:/work/app -p 8000:8000 ${IMAGE_NAME}:${IMAGE_VERSION}
 
 all: build
