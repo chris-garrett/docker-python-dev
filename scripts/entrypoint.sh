@@ -7,6 +7,7 @@ if [ -f /work/app/.env/bin/activate ]; then
 else
     echo "Virtual environment missing from /work/app/.env, initializing..."
     /usr/local/bin/initenv
+    . /work/app/.env/bin/activate
 fi
 
 exec "$@"
