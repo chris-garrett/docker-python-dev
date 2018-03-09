@@ -39,6 +39,7 @@ RUN apk --no-cache add -U \
     nodejs \
   && update-ca-certificates \
   && npm i -g npx \
+  && npm i -g shx \
   && npm i -g nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
   && ln -sf /usr/bin/vim /usr/bin/vi \
