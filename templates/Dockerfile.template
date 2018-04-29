@@ -16,17 +16,20 @@ RUN apk --no-cache add -U \
     openssl \
     vim \
     bash \
-    postgresql-dev \
     git \
     make \
     build-base \
     automake \
     autoconf \
     nasm \
+    py-pip \
+    nodejs \
+    linux-headers \
+    postgresql-dev \
     libpng-dev \
     jpeg-dev \
     zlib-dev \
-    py-pip \
+    libc-dev \
     musl-dev \
     musl-utils \
     musl-dbg \
@@ -36,7 +39,7 @@ RUN apk --no-cache add -U \
     libxslt-dev \
     libffi-dev \
     openssl-dev \
-    nodejs \
+    pcre-dev \
   && update-ca-certificates \
   && npm i -g npx \
   && npm i -g shx \
