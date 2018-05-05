@@ -40,6 +40,10 @@ RUN apk --no-cache add -U \
     libffi-dev \
     openssl-dev \
     pcre-dev \
+  && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    gdal-dev \
+    geos-dev \
+    proj4-dev \
   && update-ca-certificates \
   && npm i -g npx \
   && npm i -g shx \
