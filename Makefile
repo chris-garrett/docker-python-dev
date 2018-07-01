@@ -10,7 +10,7 @@ prep:
 	VERSION=${IMAGE_VERSION} envsubst '$${VERSION}' < ./templates/README.md.template > README.md
 
 build: prep
-	docker build --rm=true -t ${IMAGE_NAME}:${IMAGE_VERSION} .
+	docker build --no-cache --rm=true -t ${IMAGE_NAME}:${IMAGE_VERSION} .
 
 run:
 	docker run --rm -it ${IMAGE_NAME}:${IMAGE_VERSION} python --version
