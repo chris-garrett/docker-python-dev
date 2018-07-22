@@ -42,8 +42,9 @@ RUN apk --no-cache add -U \
     libffi-dev \
     libressl-dev \
     pcre-dev \
+    readline \
   && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
-    libressl2.7-libcrypto \        
+    libressl2.7-libcrypto \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
     gdal-dev \
     geos-dev \
@@ -53,6 +54,7 @@ RUN apk --no-cache add -U \
   && npm i -g shx \
   && npm i -g nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
+  && ln -s /usr/lib/libreadline.so.7 /usr/lib/libreadline.so.6 \
   && ln -sf /usr/bin/vim /usr/bin/vi \
   && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
