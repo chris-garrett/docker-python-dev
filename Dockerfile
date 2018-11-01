@@ -1,4 +1,4 @@
-FROM python:3.6.6-alpine
+FROM python:3.6.6-alpine3.7
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
 LABEL description="Python 3.6.6 Development Image"
 
@@ -26,6 +26,7 @@ RUN apk --no-cache add -U \
     nasm \
     py-pip \
     nodejs \
+    nodejs-npm \
     linux-headers \
     postgresql-dev \
     libpng-dev \
