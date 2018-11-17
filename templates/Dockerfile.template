@@ -1,4 +1,4 @@
-FROM python:${VERSION}-alpine3.7
+FROM python:${VERSION}-alpine3.8
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
 LABEL description="Python ${VERSION} Development Image"
 
@@ -15,7 +15,7 @@ COPY ./bootstrap /home/sprout/bootstrap
 
 RUN apk --no-cache add -U \
     ca-certificates \
-    libressl \
+    openssl \
     vim \
     bash \
     git \
@@ -41,11 +41,10 @@ RUN apk --no-cache add -U \
     libxml2-dev \
     libxslt-dev \
     libffi-dev \
-    libressl-dev \
     pcre-dev \
     readline \
-  && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
-    libressl2.7-libcrypto \
+  && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
+    libcrypto1.1 \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
     gdal-dev \
     geos-dev \
