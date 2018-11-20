@@ -15,7 +15,7 @@ COPY ./bootstrap /home/sprout/bootstrap
 
 RUN apk --no-cache add -U \
     ca-certificates \
-    openssl \
+    libressl \
     vim \
     bash \
     git \
