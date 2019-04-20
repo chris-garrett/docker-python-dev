@@ -4,7 +4,7 @@
 
 ## Versions
 - Alpine linux
-- Python ${VERSION}
+- Python ${PYTHON_VERSION}
 
 ## Usage
 
