@@ -1,6 +1,6 @@
-FROM python:3.6.6-alpine3.8
+FROM python:3.6.8-alpine3.8
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
-LABEL description="Python 3.6.6 Development Image"
+LABEL description="Python 3.6.8 Development Image"
 
 ENV DOCKERIZE_VERSION=v0.6.0
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -15,7 +15,7 @@ COPY ./bootstrap /home/sprout/bootstrap
 
 RUN apk --no-cache add -U \
     ca-certificates \
-    openssl \
+    libressl \
     vim \
     bash \
     git \
@@ -28,6 +28,7 @@ RUN apk --no-cache add -U \
     nodejs \
     nodejs-npm \
     linux-headers \
+    alpine-sdk \
     postgresql-dev \
     libpng-dev \
     jpeg-dev \
@@ -43,6 +44,7 @@ RUN apk --no-cache add -U \
     libffi-dev \
     pcre-dev \
     readline \
+    gfortran \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
     libcrypto1.1 \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
