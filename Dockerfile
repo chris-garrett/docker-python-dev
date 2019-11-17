@@ -1,10 +1,10 @@
-FROM python:3.6.8-alpine3.8
+FROM python:3.7.5-alpine3.10
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
-LABEL description="Python 3.6.8 Development Image"
+LABEL description="Python 3.7.5 Development Image"
 
-ENV DOCKERIZE_VERSION=v0.6.0
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH /usr/lib/python3.7/site-packages
 
 COPY ./scripts/entrypoint.sh /entrypoint.sh
 COPY ./scripts/bash_profile /home/sprout/.bash_profile
@@ -13,59 +13,73 @@ COPY ./scripts/vimrc /home/sprout/.vimrc
 COPY ./scripts/initenv /usr/local/bin/initenv
 COPY ./bootstrap /home/sprout/bootstrap
 
-RUN apk --no-cache add -U \
-    ca-certificates \
-    libressl \
-    vim \
-    bash \
-    git \
-    make \
-    build-base \
-    automake \
-    autoconf \
-    nasm \
-    py-pip \
-    nodejs \
-    nodejs-npm \
-    linux-headers \
+RUN set -ex \
+  && apk update \
+  && apk add -U \
     alpine-sdk \
-    postgresql-dev \
-    libpng-dev \
+    autoconf \
+    automake \
+    bash \
+    build-base \
+    ca-certificates \
+    git \
     jpeg-dev \
-    zlib-dev \
+    json-c \
     libc-dev \
-    musl-dev \
-    musl-utils \
-    musl-dbg \
     libevent-dev \
-    python3-dev \
+    libffi-dev \
+    libpng-dev \
+    libtool \
     libxml2-dev \
     libxslt-dev \
-    libffi-dev \
+    linux-headers \
+    make \
+    musl-dbg \
+    musl-dev \
+    musl-utils \
+    nasm \
+    nodejs \
+    nodejs-npm \
+    openssl \
     pcre-dev \
-    readline \
-    gfortran \
+    postgresql-dev \
+    python3-dev \
+    vim \
+    wget \
+    yarn \
+    zlib-dev \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
+    cython3 \
+    gfortran \
     libcrypto1.1 \
+    libgfortran \
+    readline \
   && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    gdal-dev \
+    geos \
     geos-dev \
-    proj4-dev \
+    gdal \
+    gdal-dev \
+    proj \
+    proj-dev \
+  && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    lapack \
+    lapack-dev \
+    py3-numpy \
+    py3-numpy-f2py \
+    py3-numpy-dev \
+    py3-scipy \
   && update-ca-certificates \
-  && npm i -g npx \
-  && npm i -g shx \
-  && npm i -g nodemon \
+  && pip install --no-cache --upgrade setuptools wheel virtualenv \
+  && yarn global add npx shx nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
-  && ln -s /usr/lib/libreadline.so.7 /usr/lib/libreadline.so.6 \
   && ln -sf /usr/bin/vim /usr/bin/vi \
-  && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && pip install --no-cache-dir --upgrade pip \
-  && pip install virtualenv invoke \
+  && wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
+  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
+  && rm dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
   && adduser -s /bin/bash -D sprout \
   && wget -P /home/sprout/bootstrap https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore \
-  && mkdir -p /work/app && chown -R sprout:sprout /work /home/sprout
+  && mkdir -p /work/app && chown -R sprout:sprout /work /home/sprout \
+  && rm -fr /var/cache/apk/*
 
 USER sprout
 WORKDIR /work/app
