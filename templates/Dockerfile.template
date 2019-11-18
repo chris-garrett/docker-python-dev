@@ -1,10 +1,10 @@
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+FROM alpine:${ALPINE_VERSION}
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
 LABEL description="Python ${PYTHON_VERSION} Development Image"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH /usr/lib/python3.7/site-packages
+ENV PYTHONPATH=/usr/lib/python3.7:/usr/lib/python3.7/site-packages
 
 COPY ./scripts/entrypoint.sh /entrypoint.sh
 COPY ./scripts/bash_profile /home/sprout/.bash_profile
@@ -15,7 +15,7 @@ COPY ./bootstrap /home/sprout/bootstrap
 
 RUN set -ex \
   && apk update \
-  && apk add -U \
+  && apk add -u \
     alpine-sdk \
     autoconf \
     automake \
@@ -43,7 +43,8 @@ RUN set -ex \
     openssl \
     pcre-dev \
     postgresql-dev \
-    python3-dev \
+    python${PYTHON_VERSION} \
+    python${PYTHON_VERSION}-dev \
     vim \
     wget \
     yarn \
@@ -61,18 +62,18 @@ RUN set -ex \
     gdal-dev \
     proj \
     proj-dev \
-  && apk --no-cache add -U --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
+  && apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
     lapack \
     lapack-dev \
-    py3-numpy \
     py3-numpy-f2py \
     py3-numpy-dev \
-    py3-scipy \
+  && pip${PYTHON_VERSION} install --no-cache --upgrade pip \
+  && pip install --no-cache --upgrade setuptools wheel virtualenv numpy scipy \
   && update-ca-certificates \
-  && pip install --no-cache --upgrade setuptools wheel virtualenv \
   && yarn global add npx shx nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
   && ln -sf /usr/bin/vim /usr/bin/vi \
+  && ln -sf /usr/include/locale.h /usr/include/xlocale.h \
   && wget https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
   && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
   && rm dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \

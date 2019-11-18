@@ -14,7 +14,3 @@ fi
 if [ ! -f /work/app/package.json ]; then
   cp ~/bootstrap/package.json /work/app/package.json
 fi
-
-# if [ ! -f /work/app/tasks.py ]; then
-#   cp ~/bootstrap/tasks.py /work/app/tasks.py
-# fi

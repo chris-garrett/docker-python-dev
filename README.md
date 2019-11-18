@@ -1,14 +1,14 @@
 # docker-python
 
-* Python 3.7.5 an Apline
+* Python 3 an Apline
 
 ## Versions
 - Alpine linux
-- Python 3.7.5
+- Python 3
 
 ## Usage
 
-`docker run --rm chrisgarrett/python:3.7.5`
+`docker run --rm chrisgarrett/python:3`
 
 
 ## Credits

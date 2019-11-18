@@ -1,10 +1,10 @@
-FROM alpine:3.10
+FROM alpine:${ALPINE_VERSION}
 MAINTAINER Chris Garrett (https://github.com/chris-garrett/docker-python)
-LABEL description="Python 3 Development Image"
+LABEL description="Python ${PYTHON_VERSION} Development Image"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH=/usr/lib/python3.7:/usr/lib/python3.7/site-packages
+#ENV PYTHONPATH /usr/lib/python3.7/site-packages
 
 COPY ./scripts/entrypoint.sh /entrypoint.sh
 COPY ./scripts/bash_profile /home/sprout/.bash_profile
@@ -15,6 +15,7 @@ COPY ./bootstrap /home/sprout/bootstrap
 
 RUN set -ex \
   && apk update \
+  && apk add -u python${PYTHON_VERSION} \
   && apk add -u \
     alpine-sdk \
     autoconf \
@@ -43,7 +44,6 @@ RUN set -ex \
     openssl \
     pcre-dev \
     postgresql-dev \
-    python3 \
     python3-dev \
     vim \
     wget \
@@ -65,18 +65,19 @@ RUN set -ex \
   && apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
     lapack \
     lapack-dev \
+  && apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/community \
+    py3-numpy \
     py3-numpy-f2py \
     py3-numpy-dev \
-  && pip3 install --no-cache --upgrade pip \
-  && pip install --no-cache --upgrade setuptools wheel virtualenv numpy scipy \
+    py3-scipy \
   && update-ca-certificates \
+  && pip install --no-cache --upgrade setuptools wheel virtualenv \
   && yarn global add npx shx nodemon \
   && cp -r /usr/include/libxml2/libxml/ /usr/include \
   && ln -sf /usr/bin/vim /usr/bin/vi \
-  && ln -sf /usr/include/locale.h /usr/include/xlocale.h \
-  && wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
-  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
-  && rm dockerize-alpine-linux-amd64-v0.6.0.tar.gz \
+  && wget https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
+  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
+  && rm dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
   && adduser -s /bin/bash -D sprout \
   && wget -P /home/sprout/bootstrap https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore \
   && mkdir -p /work/app && chown -R sprout:sprout /work /home/sprout \
